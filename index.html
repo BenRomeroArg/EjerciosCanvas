@@ -24,7 +24,7 @@
             physics: {
                 default: 'arcade',
                 arcade:{
-                    gravity: { y: 200}
+                    gravity: { y: 140}
                 }
             },
             scene: {
@@ -47,19 +47,19 @@
             var particles = this.add.particles('virus');
             var part = this.add.particles('virus');
             var emitter = particles.createEmitter({
-                speed: 60,
-                scale: { start: 0.04, end: 0.35},
+                speed: 150,
+                scale: { start: 0.009, end: 0.12},
                 blendMode: 'MULTIPLY'
             });
             var emitter2 = part.createEmitter({
-                speed: 50,
-                scale: { start: 0.03, end: 0.35},
+                speed: 170,
+                scale: { start: 0.009, end: 0.11},
                 blendMode: 'MULTIPLY'
             });
-            var bacteria = this.physics.add.image(400,100,'ed');
-            var bacteria2 = this.physics.add.image(50,50,'ed2');
+            var bacteria = this.physics.add.image(500,200,'ed');
+            var bacteria2 = this.physics.add.image(50,200,'ed2');
 
-            bacteria.setVelocity(100,100);
+            bacteria.setVelocity(90,90);
             bacteria.setBounce(1,1);
             bacteria.setCollideWorldBounds(true);
            
