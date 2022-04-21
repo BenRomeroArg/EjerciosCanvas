@@ -19,7 +19,7 @@
     <script>
         var config = {
             type: Phaser.AUTO,
-            width: 800,
+            width: 600,
             height:600,
             physics: {
                 default: 'arcade',
@@ -38,23 +38,36 @@
             this.load.image('fondo','imagen/fondo.png');
             this.load.image('virus','imagen/corona.png');
             this.load.image('ed','imagen/enemies.png');
+            this.load.image('ed2','imagen/enemies.png');
 
         }
 
         function create(){
             this.add.image(400,300,'fondo');
             var particles = this.add.particles('virus');
+            var part = this.add.particles('virus');
             var emitter = particles.createEmitter({
-                speed: 200,
-                scale: { start: 0.07, end: 0.5},
+                speed: 60,
+                scale: { start: 0.04, end: 0.35},
+                blendMode: 'MULTIPLY'
+            });
+            var emitter2 = part.createEmitter({
+                speed: 50,
+                scale: { start: 0.03, end: 0.35},
                 blendMode: 'MULTIPLY'
             });
             var bacteria = this.physics.add.image(400,100,'ed');
+            var bacteria2 = this.physics.add.image(50,50,'ed2');
 
-            bacteria.setVelocity(140,110);
-            bacteria.setBounce(1.2,1.1);
+            bacteria.setVelocity(100,100);
+            bacteria.setBounce(1,1);
             bacteria.setCollideWorldBounds(true);
+           
+            bacteria2.setVelocity(100,100);
+            bacteria2.setBounce(1,1);
+            bacteria2.setCollideWorldBounds(true);
 
+            emitter2.startFollow(bacteria2)
             emitter.startFollow(bacteria);
         }
     </script>
