@@ -46,13 +46,13 @@
             var particles = this.add.particles('virus');
             var emitter = particles.createEmitter({
                 speed: 200,
-                scale: { start: 0.2, end: 0},
+                scale: { start: 0.07, end: 0.5},
                 blendMode: 'MULTIPLY'
             });
             var bacteria = this.physics.add.image(400,100,'ed');
 
-            bacteria.setVelocity(200,200);
-            bacteria.setBounce(2,2);
+            bacteria.setVelocity(140,110);
+            bacteria.setBounce(1.2,1.1);
             bacteria.setCollideWorldBounds(true);
 
             emitter.startFollow(bacteria);
