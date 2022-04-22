@@ -11,11 +11,33 @@
             box-sizing: border-box;
             align-items: center;
         }
-        
+        .contenedor{
+            display: flex;
+            top:550px;
+            margin-left: 10px;
+            flex-direction: row;
+            position:fixed;
+            width: 200px;
+            height: 60px;
+        }
+        button{
+            display: flex;
+            margin-left: 10px;
+            width: 50px;
+            height: 50px;
+            border-radius: 100px;
+            border-color: black 2px solid;
+            background-color: green;
+
+        }
     </style>
 </head>
 <body>
-  
+    <div class="contenedor"> 
+        <button id="btnI"></button>
+        <button id="btnA"></button>
+        <button id="btnD"></button>
+    </div>
     <script>
         var config = {
             type: Phaser.AUTO,
@@ -24,7 +46,7 @@
             physics: {
                 default: 'arcade',
                 arcade:{
-                    gravity: { y: 140}
+                    gravity: { y: 200}
                 }
             },
             scene: {
@@ -36,19 +58,31 @@
         var game = new Phaser.Game(config);
         var player;
         var cursors;
+        var platforms;
         function preload () {
             this.load.image('fondo','imagen/fondo.png');
             this.load.image('virus','imagen/corona.png');
             this.load.image('halo','imagen/halo.png');
             this.load.image('ed','imagen/enemies.png');
             this.load.image('ed2','imagen/enemies.png');
-            this.load.spritesheet('alien','imagen/alienB.png',{frameHeight: 69, frameWidth: 41});
+            this.load.image('plataforma','imagen/Plataforma.png');
+            this.load.spritesheet('alien','imagen/alienBb.png',{frameHeight: 73, frameWidth: 41});
 
         }
 
         function create(){
             this.add.image(400,300,'fondo');
-            player = this.physics.add.sprite(100,450,'alien');
+            player = this.physics.add.sprite(50,50,'alien');
+
+            platforms = this.physics.add.staticGroup();
+            platforms.create(350,550,'plataforma').setScale(2).refreshBody();
+            platforms.create(300,450,'plataforma');
+            platforms.create(150,370,'plataforma').setScale(2).refreshBody();
+            platforms.create(500,150,'plataforma');
+            platforms.create(300,250,'plataforma');
+            
+
+
             var particles = this.add.particles('virus');
             var part = this.add.particles('virus');
             var haloA = this.add.particles('halo');
@@ -86,6 +120,14 @@
             emitter2.startFollow(bacteria2);
             emitter.startFollow(bacteria);
             emitter3.startFollow(player);
+
+            this.physics.add.collider(player,platforms);
+            this.physics.add.collider(player,bacteria);
+            this.physics.add.collider(player,bacteria2);
+            this.physics.add.collider(bacteria,bacteria2);
+            this.physics.add.collider(bacteria,platforms);
+            this.physics.add.collider(bacteria2,platforms);
+
            
 
             this.anims.create({
@@ -121,6 +163,19 @@
 
             cursors = this.input.keyboard.createCursorKeys();
         }
+        const boton_I = document.querySelector('#btnI');
+        boton_I.addEventListener('click', function(){
+            player.setVelocityX(-490);
+        });
+        const boton_D = document.querySelector('#btnD');
+        boton_D.addEventListener('click', function(){
+            player.setVelocityX(490);
+        });
+        const boton_A = document.querySelector('#btnA');
+        boton_A.addEventListener('click', function(){
+            player.setVelocityY(-130);
+        });
+
         function update(){
             if (cursors.left.isDown){
                 player.setVelocityX(-490);
@@ -140,7 +195,7 @@
             }
 
             if (cursors.up.isDown){
-                player.setVelocityY(-230);
+                player.setVelocityY(-130);
             }
         }
     </script>
