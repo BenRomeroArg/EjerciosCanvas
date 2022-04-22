@@ -10,6 +10,7 @@
         body{
             box-sizing: border-box;
             align-items: center;
+            scroll-behavior: smooth;
         }
         .contenedor{
             display: flex;
@@ -27,7 +28,7 @@
             height: 50px;
             border-radius: 100px;
             border-color: black 2px solid;
-            background-color: green;
+            background-color: rgb(10, 229, 10);
 
         }
     </style>
@@ -41,8 +42,8 @@
     <script>
         var config = {
             type: Phaser.AUTO,
-            width: 600,
-            height:600,
+            width: 500,
+            height:700,
             physics: {
                 default: 'arcade',
                 arcade:{
@@ -72,14 +73,17 @@
 
         function create(){
             this.add.image(400,300,'fondo');
-            player = this.physics.add.sprite(50,50,'alien');
+            player = this.physics.add.sprite(50,550,'alien');
 
             platforms = this.physics.add.staticGroup();
-            platforms.create(350,550,'plataforma').setScale(2).refreshBody();
+            platforms.create(380,550,'plataforma').setScale(2).refreshBody();
             platforms.create(300,450,'plataforma');
-            platforms.create(150,370,'plataforma').setScale(2).refreshBody();
-            platforms.create(500,150,'plataforma');
-            platforms.create(300,250,'plataforma');
+            platforms.create(50,370,'plataforma').setScale(2).refreshBody();
+            platforms.create(300,150,'plataforma');
+            platforms.create(400,260,'plataforma');
+            platforms.create(50,100,'plataforma');
+            platforms.create(450,370,'plataforma');
+            platforms.create(120,640,'plataforma').setScale(2).refreshBody();
             
 
 
@@ -88,25 +92,25 @@
             var haloA = this.add.particles('halo');
 
             var emitter3 = haloA.createEmitter({
-                speed: 130,
+                speed: 70,
                 scale: { start: 0.039, end: 0.37},
                 blendMode: 'MULTIPLY'
             });
 
             var emitter = particles.createEmitter({
-                speed: 150,
+                speed: 100,
                 scale: { start: 0.009, end: 0.12},
                 blendMode: 'MULTIPLY'
             });
             var emitter2 = part.createEmitter({
-                speed: 170,
+                speed: 100,
                 scale: { start: 0.009, end: 0.11},
                 blendMode: 'MULTIPLY'
             });
 
-            var bacteria = this.physics.add.image(500,200,'ed');
-            var bacteria2 = this.physics.add.image(50,200,'ed2');
-            player.setBounce(0.2);
+            var bacteria = this.physics.add.image(500,10,'ed');
+            var bacteria2 = this.physics.add.image(10,10,'ed2');
+            player.setBounce(0.1);
             player.setCollideWorldBounds(true);
 
             bacteria.setVelocity(90,90);
@@ -151,8 +155,8 @@
             this.anims.create({
                 key: 'turn',
                 frames: this.anims.generateFrameNumbers('alien',{
-                    start: 5,
-                    end: 8
+                    start: 4,
+                    end: 6
                 }),
                 frameRate: 10,
                 repeat: -1
@@ -166,14 +170,17 @@
         const boton_I = document.querySelector('#btnI');
         boton_I.addEventListener('click', function(){
             player.setVelocityX(-490);
+            player.anims.play('left', true);
         });
         const boton_D = document.querySelector('#btnD');
         boton_D.addEventListener('click', function(){
             player.setVelocityX(490);
+            player.anims.play('right', true);
         });
         const boton_A = document.querySelector('#btnA');
         boton_A.addEventListener('click', function(){
             player.setVelocityY(-130);
+            player.anims.play('turn');
         });
 
         function update(){
