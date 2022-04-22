@@ -60,6 +60,8 @@
         var player;
         var cursors;
         var platforms;
+        var nave;
+
         function preload () {
             this.load.image('fondo','imagen/fondo.png');
             this.load.image('virus','imagen/corona.png');
@@ -67,26 +69,30 @@
             this.load.image('ed','imagen/enemies.png');
             this.load.image('ed2','imagen/enemies.png');
             this.load.image('plataforma','imagen/Plataforma.png');
+            this.load.image('plataformaA','imagen/Plataforma.png');
+            this.load.image('starship','imagen/spaceship.png');
             this.load.spritesheet('alien','imagen/alienBb.png',{frameHeight: 73, frameWidth: 41});
+           
 
         }
 
         function create(){
             this.add.image(400,300,'fondo');
-            player = this.physics.add.sprite(50,480,'alien');
-
-            platforms = this.physics.add.staticGroup();
-            platforms.create(450,590,'plataforma').setScale(2).refreshBody();
-            platforms.create(320,470,'plataforma');
-            platforms.create(50,370,'plataforma').setScale(2).refreshBody();
-            platforms.create(350,210,'plataforma');
-            platforms.create(180,250,'plataforma');
-            platforms.create(50,100,'plataforma');
-            platforms.create(400,370,'plataforma');
-            platforms.create(100,560,'plataforma').setScale(2).refreshBody();
+            nave = this.physics.add.image(0,0,'starship');
+            player = this.physics.add.sprite(170,170,'alien');
             
-
-
+            platforms = this.physics.add.staticGroup();
+            platforms.create(450,550,'plataforma').setScale(2).refreshBody();
+            platforms.create(450,270,'plataforma');
+            platforms.create(200,370,'plataforma').setScale(2).refreshBody();
+            platforms.create(350,110,'plataforma');
+            platforms.create(180,150,'plataforma');
+            platforms.create(50,100,'plataforma');
+            platforms.create(460,430,'plataforma');
+            platforms.create(100,560,'plataformaA').setScale(2.2).refreshBody()
+            platforms2 =  this.physics.add.staticGroup();
+            platforms2.create(150,560,'plataformaA').setScale(2).refreshBody()
+            
             var particles = this.add.particles('virus');
             var part = this.add.particles('virus');
             var haloA = this.add.particles('halo');
@@ -108,23 +114,34 @@
                 blendMode: 'MULTIPLY'
             });
 
-            var bacteria = this.physics.add.image(500,10,'ed');
-            var bacteria2 = this.physics.add.image(10,10,'ed2');
+            var bacteria = this.physics.add.image(400,10,'ed');
+            var bacteria2 = this.physics.add.image(370,10,'ed2');
+            
             player.setBounce(0.1);
+            player.setScale(1.25);
             player.setCollideWorldBounds(true);
 
-            bacteria.setVelocity(90,90);
-            bacteria.setBounce(1.1,1);
+            bacteria.setVelocity(80,90);
+            bacteria.setBounce(1,1);
             bacteria.setCollideWorldBounds(true);
+            bacteria.setScale(0.9);
            
-            bacteria2.setVelocity(80,80);
-            bacteria2.setBounce(1.1,1);
+            bacteria2.setVelocity(80,90);
+            bacteria2.setBounce(1,1);
             bacteria2.setCollideWorldBounds(true);
+            bacteria2.setScale(0.7);
+
+            nave.setVelocity(0,10);
+            nave.setBounceX(1);
+            nave.setScale(0.39);
+            nave.setCollideWorldBounds(true);
 
             emitter2.startFollow(bacteria2);
             emitter.startFollow(bacteria);
             emitter3.startFollow(player);
 
+            this.physics.add.collider(nave,platforms2)
+            this.physics.add.collider(nave,bacteria);
             this.physics.add.collider(player,platforms);
             this.physics.add.collider(player,bacteria);
             this.physics.add.collider(player,bacteria2);
