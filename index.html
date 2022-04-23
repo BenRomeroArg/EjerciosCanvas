@@ -89,7 +89,7 @@
             nave = this.physics.add.image(50,0,'starship');
             player = this.physics.add.sprite(170,170,'alien');
             tank = this.physics.add.sprite(290, 570, 'tank');
-            bondi = this.physics.add.image(600,570, 'bondi');
+            bondi = this.physics.add.image(100,570, 'bondi');
             auto = this.physics.add.image(50,570, 'auto');
 
             base = this.physics.add.staticGroup();
@@ -134,7 +134,7 @@
             var bacteria2 = this.physics.add.image(370,10,'ed2');
             
             player.setBounce(0.06);
-            player.setScale(1.17);
+            player.setScale(1.13);
             player.setCollideWorldBounds(true);
 
             bacteria.setVelocity(30,40);
@@ -166,8 +166,8 @@
             this.anims.create({
                 key: 'impact',
                 frames: this.anims.generateFrameNumbers('tank',{
-                    start: 4, 
-                    end: 0
+                    start: 0, 
+                    end: 2
                 }),
                 frameRate: 10,
                 repeat: -1
@@ -182,9 +182,9 @@
             this.physics.add.collider(bondi,player);
             this.physics.add.collider(player,tank);
             this.physics.add.collider(auto,player);
-            this.physics.add.collider(auto,bacteria);
-            this.physics.add.collider(bondi,bacteria);
-            this.physics.add.collider(bacteria,tank);
+            this.physics.add.collider(auto,bacteria2);
+            this.physics.add.collider(bondi,bacteria2);
+            this.physics.add.collider(bacteria2,tank);
             
             this.physics.add.collider(player,platforms);
             this.physics.add.collider(player,bacteria);
