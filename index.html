@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>El  origen</title>
     <script src="//cdn.jsdelivr.net/npm/phaser@3.51.0/dist/phaser.min.js"></script>
     <style>
         body{
@@ -15,17 +15,17 @@
         .contenedor{
             display: flex;
             top:550px;
-            margin-left: 10px;
+            align-items: flex-end;
             flex-direction: row;
             position:fixed;
-            width: 200px;
-            height: 60px;
+            width: 700px;
+            height: 100px;
         }
         button{
             display: flex;
-            margin-left: 10px;
-            width: 50px;
-            height: 50px;
+            
+            width: 80px;
+            height: 80px;
             border-radius: 100px;
             border-color: black 2px solid;
             background-color: rgb(10, 229, 10);
@@ -61,6 +61,8 @@
         var cursors;
         var platforms;
         var nave;
+        var tank;
+        var bondi;
 
         function preload () {
             this.load.image('fondo','imagen/fondo.png');
@@ -71,7 +73,9 @@
             this.load.image('plataforma','imagen/Plataforma.png');
             this.load.image('plataformaA','imagen/Plataforma.png');
             this.load.image('starship','imagen/spaceship.png');
+            this.load.image('bondi','imagen/bondiBg.png');
             this.load.spritesheet('alien','imagen/alienBb.png',{frameHeight: 73, frameWidth: 41});
+            this.load.spritesheet('tank','imagen/tankbg.png',{frameHeight: 80, frameWidth: 200});
            
 
         }
@@ -80,18 +84,20 @@
             this.add.image(400,300,'fondo');
             nave = this.physics.add.image(0,0,'starship');
             player = this.physics.add.sprite(170,170,'alien');
+            tank = this.physics.add.sprite(800, 600, 'tank');
+            bondi = this.physics.add.image(600,670, 'bondi');
             
             platforms = this.physics.add.staticGroup();
-            platforms.create(450,550,'plataforma').setScale(2).refreshBody();
-            platforms.create(450,270,'plataforma');
+            //platforms.create(450,550,'plataforma').setScale(2).refreshBody();
+            platforms.create(290,590,'plataforma').setScale(3.5).refreshBody();
             platforms.create(200,370,'plataforma').setScale(2).refreshBody();
             platforms.create(350,110,'plataforma');
             platforms.create(180,150,'plataforma');
             platforms.create(50,100,'plataforma');
-            platforms.create(460,430,'plataforma');
-            platforms.create(100,560,'plataformaA').setScale(2.2).refreshBody()
+            platforms.create(460,370,'plataforma');
+            platforms.create(100,260,'plataformaA').setScale(1.5).refreshBody()
             platforms2 =  this.physics.add.staticGroup();
-            platforms2.create(150,560,'plataformaA').setScale(2).refreshBody()
+            platforms2.create(50,560,'plataformaA').setScale(1.3).refreshBody()
             
             var particles = this.add.particles('virus');
             var part = this.add.particles('virus');
@@ -117,30 +123,52 @@
             var bacteria = this.physics.add.image(400,10,'ed');
             var bacteria2 = this.physics.add.image(370,10,'ed2');
             
-            player.setBounce(0.1);
-            player.setScale(1.25);
+            player.setBounce(0.06);
+            player.setScale(1.17);
             player.setCollideWorldBounds(true);
 
-            bacteria.setVelocity(80,90);
+            bacteria.setVelocity(30,40);
             bacteria.setBounce(1,1);
             bacteria.setCollideWorldBounds(true);
             bacteria.setScale(0.9);
            
-            bacteria2.setVelocity(80,90);
+            bacteria2.setVelocity(30,40);
             bacteria2.setBounce(1,1);
             bacteria2.setCollideWorldBounds(true);
             bacteria2.setScale(0.7);
 
             nave.setVelocity(0,10);
             nave.setBounceX(1);
-            nave.setScale(0.39);
+            nave.setScale(0.29);
             nave.setCollideWorldBounds(true);
+
+            tank.setBounceX(1);
+            tank.setVelocityX(20);
+            tank.setCollideWorldBounds(true);
+
+            bondi.setScale(0.9);
+            bondi.setBounceX(1);
+            bondi.setVelocityX(35);
+            bondi.setCollideWorldBounds(true);
+            
+            this.anims.create({
+                key: 'impact',
+                frames: this.anims.generateFrameNumbers('tank',{
+                    start: 4, 
+                    end: 0
+                }),
+                frameRate: 20,
+                repeat: -1
+            });
 
             emitter2.startFollow(bacteria2);
             emitter.startFollow(bacteria);
             emitter3.startFollow(player);
 
-            this.physics.add.collider(nave,platforms2)
+            this.physics.add.collider(nave,platforms2);
+            
+            this.physics.add.collider(bondi,player);
+            this.physics.add.collider(player,tank);
             
             this.physics.add.collider(player,platforms);
             this.physics.add.collider(player,bacteria);
@@ -148,7 +176,7 @@
             this.physics.add.collider(bacteria,bacteria2);
             this.physics.add.collider(bacteria,platforms);
             this.physics.add.collider(bacteria2,platforms);
-
+            this.physics.add.collider(tank,platforms2);
            
 
             this.anims.create({
@@ -188,6 +216,7 @@
         boton_I.addEventListener('click', function(){
             player.setVelocityX(-490);
             player.anims.play('left', true);
+            tank.anims.play('impact',true);
         });
         const boton_D = document.querySelector('#btnD');
         boton_D.addEventListener('click', function(){
@@ -205,17 +234,19 @@
                 player.setVelocityX(-490);
 
                 player.anims.play('left', true);
+                tank.anims.play('impact',true);
             }else if (cursors.right.isDown){
                 player.setVelocityX(490);
 
                player.anims.play('right', true);
+              
             }
             else
                 {
                 player.setVelocityX(0);
         
                 player.anims.play('turn');
-        
+               
             }
 
             if (cursors.up.isDown){
