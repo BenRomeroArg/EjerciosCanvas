@@ -65,6 +65,7 @@
         var tank;
         var bondi;
         var auto;
+        var autoDos;
 
         function preload () {
             this.load.image('fondo','imagen/fondo.png');
@@ -78,19 +79,23 @@
             this.load.image('starship','imagen/spaceship.png');
             this.load.image('bondi','imagen/bondiBg.png');
             this.load.image('auto','imagen/autobg.png');
+            this.load.image('autoD','imagen/autodosbg.png');
             this.load.spritesheet('alien','imagen/alienBb.png',{frameHeight: 73, frameWidth: 41});
-            this.load.spritesheet('tank','imagen/tankbg.png',{frameHeight: 80, frameWidth: 110});
+            this.load.spritesheet('tank','imagen/tankbg.png',{frameHeight: 80, frameWidth: 115});
            
 
         }
 
         function create(){
             this.add.image(400,300,'fondo');
+
             nave = this.physics.add.image(50,0,'starship');
             player = this.physics.add.sprite(170,170,'alien');
             tank = this.physics.add.sprite(290, 570, 'tank');
             bondi = this.physics.add.image(100,570, 'bondi');
-            auto = this.physics.add.image(50,570, 'auto');
+            autoDos = this.physics.add.image(210,570,'autoD');
+            auto = this.physics.add.image(150,570, 'auto');
+            
 
             base = this.physics.add.staticGroup();
             base.create(-200,681,'base').setScale(2).refreshBody();
@@ -162,6 +167,11 @@
 
             auto.setBounceX(1);
             auto.setVelocityX(45);
+
+            autoDos.setBounceX(1);
+            autoDos.setVelocityX(55);
+            autoDos.setScale(0.7);
+            autoDos.setCollideWorldBounds(true);
             
             this.anims.create({
                 key: 'impact',
@@ -185,6 +195,11 @@
             this.physics.add.collider(auto,bacteria2);
             this.physics.add.collider(bondi,bacteria2);
             this.physics.add.collider(bacteria2,tank);
+
+            this.physics.add.collider(autoDos,player);
+            this.physics.add.collider(autoDos,bacteria2);
+            this.physics.add.collider(autoDos,base);
+            this.physics.add.collider(autoDos,platforms2);
             
             this.physics.add.collider(player,platforms);
             this.physics.add.collider(player,bacteria);
@@ -201,6 +216,8 @@
 
             this.physics.add.collider(auto,base);
             this.physics.add.collider(auto,platforms2);
+
+           
            
 
             this.anims.create({
@@ -236,6 +253,7 @@
 
             cursors = this.input.keyboard.createCursorKeys();
         }
+
         const boton_I = document.querySelector('#btnI');
         boton_I.addEventListener('click', function(){
             player.setVelocityX(-490);
