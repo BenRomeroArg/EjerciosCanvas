@@ -42,8 +42,8 @@
     <script>
         var config = {
             type: Phaser.AUTO,
-            width: 500,
-            height:600,
+            width: 600,
+            height: 600,
             physics: {
                 default: 'arcade',
                 arcade:{
@@ -60,9 +60,11 @@
         var player;
         var cursors;
         var platforms;
+        var base;
         var nave;
         var tank;
         var bondi;
+        var auto;
 
         function preload () {
             this.load.image('fondo','imagen/fondo.png');
@@ -70,10 +72,12 @@
             this.load.image('halo','imagen/halo.png');
             this.load.image('ed','imagen/enemies.png');
             this.load.image('ed2','imagen/enemies.png');
+            this.load.image('base','imagen/base.png',{frameHeight: 80, frameWidth: 1000});
             this.load.image('plataforma','imagen/Plataforma.png');
             this.load.image('plataformaA','imagen/Plataforma.png');
             this.load.image('starship','imagen/spaceship.png');
             this.load.image('bondi','imagen/bondiBg.png');
+            this.load.image('auto','imagen/autobg.png');
             this.load.spritesheet('alien','imagen/alienBb.png',{frameHeight: 73, frameWidth: 41});
             this.load.spritesheet('tank','imagen/tankbg.png',{frameHeight: 80, frameWidth: 110});
            
@@ -82,23 +86,29 @@
 
         function create(){
             this.add.image(400,300,'fondo');
-            nave = this.physics.add.image(0,0,'starship');
+            nave = this.physics.add.image(50,0,'starship');
             player = this.physics.add.sprite(170,170,'alien');
-            tank = this.physics.add.sprite(800, 600, 'tank');
-            bondi = this.physics.add.image(600,650, 'bondi');
+            tank = this.physics.add.sprite(290, 570, 'tank');
+            bondi = this.physics.add.image(600,570, 'bondi');
+            auto = this.physics.add.image(50,570, 'auto');
+
+            base = this.physics.add.staticGroup();
+            base.create(-200,681,'base').setScale(2).refreshBody();
             
             platforms = this.physics.add.staticGroup();
             //platforms.create(450,550,'plataforma').setScale(2).refreshBody();
-            platforms.create(290,620,'plataforma').setScale(3.5).refreshBody();
-            platforms.create(200,370,'plataforma').setScale(2).refreshBody();
+            platforms.create(290,620,'plataforma').setScale(3).refreshBody();
+            platforms.create(130,390,'plataforma').setScale(2).refreshBody();
             platforms.create(350,110,'plataforma');
             platforms.create(180,150,'plataforma');
             platforms.create(50,100,'plataforma');
-            platforms.create(460,370,'plataforma');
-            platforms.create(100,550,'plataformaA').setScale(1.5).refreshBody()
+            platforms.create(500,400,'plataforma');
+            platforms.create(500,270,'plataformaA')
             platforms2 =  this.physics.add.staticGroup();
             platforms2.create(50,260,'plataformaA').setScale(1.3).refreshBody()
-            
+            platforms2.create(-200,590,'plataformaA');
+            platforms2.create(900,590,'plataformaA');
+
             var particles = this.add.particles('virus');
             var part = this.add.particles('virus');
             var haloA = this.add.particles('halo');
@@ -140,16 +150,18 @@
             nave.setVelocity(0,10);
             nave.setBounceX(1);
             nave.setScale(0.29);
-            nave.setCollideWorldBounds(true);
+            
 
             tank.setBounceX(1);
             tank.setVelocityX(20);
-            tank.setCollideWorldBounds(true);
+            
 
             bondi.setScale(0.9);
             bondi.setBounceX(1);
             bondi.setVelocityX(35);
-            bondi.setCollideWorldBounds(true);
+
+            auto.setBounceX(1);
+            auto.setVelocityX(45);
             
             this.anims.create({
                 key: 'impact',
@@ -169,6 +181,10 @@
             
             this.physics.add.collider(bondi,player);
             this.physics.add.collider(player,tank);
+            this.physics.add.collider(auto,player);
+            this.physics.add.collider(auto,bacteria);
+            this.physics.add.collider(bondi,bacteria);
+            this.physics.add.collider(bacteria,tank);
             
             this.physics.add.collider(player,platforms);
             this.physics.add.collider(player,bacteria);
@@ -176,7 +192,15 @@
             this.physics.add.collider(bacteria,bacteria2);
             this.physics.add.collider(bacteria,platforms);
             this.physics.add.collider(bacteria2,platforms);
+
             this.physics.add.collider(tank,platforms2);
+            this.physics.add.collider(tank,base);
+
+            this.physics.add.collider(bondi,base);
+            this.physics.add.collider(bondi,platforms2);
+
+            this.physics.add.collider(auto,base);
+            this.physics.add.collider(auto,platforms2);
            
 
             this.anims.create({
