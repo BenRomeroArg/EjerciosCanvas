@@ -264,19 +264,23 @@
         var scoreText;
         var score = 0;
         function detectar(player,bacteria){
-            
+            bacteria.setTint(0x000ff);
             score++;
             console.log(score);
             
             setTimeout(()=> {
-                bacteria.setTint(0x000ff);
-            },1000);
+                bacteria.clearTint();
+            },2000);
             
         }
         function detectarB (player,bacteria2){
             score++;
             console.log(score);
             bacteria2.setTint(0x000ff);
+            setTimeout(()=> {
+                bacteria2.clearTint();
+            },2000);
+
             
         }
 
@@ -336,13 +340,14 @@
 
             scoreText.setText('Energy: ' + score);
             if(score>= 200){
-
+               
                 this.physics.pause();
                 gameOver = true;
                 alert('Los Bact fueron exterminados, puedes volver a tu planeta!');
                 window.location.reload();
             }
             if(score <= -150){
+                player.setTint(0x000ff);
                 this.physics.pause();
                 gameOver = true;
                 alert('no pudiste detener la infectacion..se aproxima una pandemia..');
