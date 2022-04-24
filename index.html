@@ -14,7 +14,7 @@
         }
         .contenedor{
             display: flex;
-            top:600px;
+            top:605px;
             
             justify-content: center;
             flex-direction: row;
@@ -25,12 +25,14 @@
         }
         button{
             display: flex;
-            margin-left: 20px;
-            width: 90px;
-            height: 90px;
+            margin-top: 5px;
+            margin-left: 25px;
+            width: 95px;
+            height: 95px;
             border-radius: 100px;
-            border-color: black 2px solid;
-            background-color: rgb(10, 229, 10);
+            border-color: black 12px solid;
+            background-color: rgb(149, 7, 210);
+            
 
         }
     </style>
@@ -180,8 +182,8 @@
             this.anims.create({
                 key: 'impact',
                 frames: this.anims.generateFrameNumbers('tank',{
-                    start: 2, 
-                    end: 4
+                    start: 0, 
+                    end: 3
                 }),
                 frameRate: 10,
                 repeat: -1
@@ -228,9 +230,6 @@
             this.physics.add.collider(auto,base);
             this.physics.add.collider(auto,platforms2);
 
-           
-           
-
             this.anims.create({
                 key: 'left',
                 frames: this.anims.generateFrameNumbers('alien',{
@@ -267,6 +266,10 @@
         var scoreText;
         var score = 0;
         function detectar(player,bacteria){
+            if("vibrate" in window.navigator) {
+                window.navigator.vibrate(100);
+            }
+
             bacteria.setTint(0x000ff);
             score++;
             console.log(score);
@@ -277,6 +280,9 @@
             
         }
         function detectarB (player,bacteria2){
+            if("vibrate" in window.navigator) {
+                window.navigator.vibrate(100);
+            }
             score++;
             console.log(score);
             bacteria2.setTint(0x000ff);
