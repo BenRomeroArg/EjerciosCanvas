@@ -66,6 +66,7 @@
         var bondi;
         var auto;
         var autoDos;
+        var gameOver = false;
 
         function preload () {
             this.load.image('fondo','imagen/fondo.png');
@@ -192,9 +193,14 @@
             this.physics.add.collider(bondi,player);
             this.physics.add.collider(player,tank);
             this.physics.add.collider(auto,player);
+
             this.physics.add.collider(auto,bacteria2, detectarBA);
             this.physics.add.collider(bondi,bacteria2, detectarBA);
             this.physics.add.collider(bacteria2,tank, detectarBA);
+
+            this.physics.add.collider(auto,bacteria, detectarBB);
+            this.physics.add.collider(bondi,bacteria, detectarBB);
+            this.physics.add.collider(bacteria,tank, detectarBB);
 
             this.physics.add.collider(autoDos,player);
             this.physics.add.collider(autoDos,bacteria2, detectarBA);
@@ -278,6 +284,10 @@
             score--;
 
         }
+        function detectarBB(bacteria){
+            score--;
+
+        }
 
         const boton_I = document.querySelector('#btnI');
         boton_I.addEventListener('click', function(){
@@ -297,6 +307,10 @@
         });
 
         function update(){
+            if(gameOver){
+                return;
+            }
+
             if (cursors.left.isDown){
                 player.setVelocityX(-490);
 
@@ -322,7 +336,16 @@
 
             scoreText.setText('Energy: ' + score);
             if(score>= 100){
+
+                this.physics.pause();
+                gameOver = true;
                 alert('Los Bact fueron exterminados, puedes volver a tu planeta!');
+                window.location.reload();
+            }
+            if(score <= -50){
+                this.physics.pause();
+                gameOver = true;
+                alert('no pudiste detener la infectacion..se aproxima una pandemia..');
                 window.location.reload();
             }
         }
