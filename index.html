@@ -276,7 +276,7 @@
             
             setTimeout(()=> {
                 bacteria.clearTint();
-            },2000);
+            },2500);
             
         }
         function detectarB (player,bacteria2){
@@ -286,9 +286,10 @@
             score++;
             console.log(score);
             bacteria2.setTint(0x000ff);
+
             setTimeout(()=> {
                 bacteria2.clearTint();
-            },2000);
+            },2500);
 
             
         }
@@ -301,7 +302,7 @@
             score--;
 
         }
-        function detectarBB(bacteria){
+        function detectarBB(bacteria,bondi){
             if("vibrate" in window.navigator) {
                 window.navigator.vibrate(100);
             }
