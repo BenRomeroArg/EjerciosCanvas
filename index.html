@@ -192,18 +192,20 @@
             this.physics.add.collider(bondi,player);
             this.physics.add.collider(player,tank);
             this.physics.add.collider(auto,player);
-            this.physics.add.collider(auto,bacteria2);
-            this.physics.add.collider(bondi,bacteria2);
-            this.physics.add.collider(bacteria2,tank);
+            this.physics.add.collider(auto,bacteria2, detectarBA);
+            this.physics.add.collider(bondi,bacteria2, detectarBA);
+            this.physics.add.collider(bacteria2,tank, detectarBA);
 
             this.physics.add.collider(autoDos,player);
-            this.physics.add.collider(autoDos,bacteria2);
+            this.physics.add.collider(autoDos,bacteria2, detectarBA);
             this.physics.add.collider(autoDos,base);
             this.physics.add.collider(autoDos,platforms2);
             
             this.physics.add.collider(player,platforms);
-            this.physics.add.collider(player,bacteria);
-            this.physics.add.collider(player,bacteria2);
+
+            this.physics.add.collider(player,bacteria,detectar);
+
+            this.physics.add.collider(player,bacteria2,detectarB);
             this.physics.add.collider(bacteria,bacteria2);
             this.physics.add.collider(bacteria,platforms);
             this.physics.add.collider(bacteria2,platforms);
@@ -249,9 +251,32 @@
             
                  
             });
-            
+            scoreText = this.add.text(16,16, 'Energy:  0', { fontSize:'32px', fill:'#000'});
 
             cursors = this.input.keyboard.createCursorKeys();
+        }
+        var scoreText;
+        var score = 0;
+        function detectar(player,bacteria){
+            
+            score++;
+            console.log(score);
+            
+            setTimeout(()=> {
+                bacteria.setTint(0x000ff);
+            },1000);
+            
+        }
+        function detectarB (player,bacteria2){
+            score++;
+            console.log(score);
+            bacteria2.setTint(0x000ff);
+            
+        }
+
+        function detectarBA(bacteria2){
+            score--;
+
         }
 
         const boton_I = document.querySelector('#btnI');
@@ -293,6 +318,12 @@
 
             if (cursors.up.isDown){
                 player.setVelocityY(-130);
+            }
+
+            scoreText.setText('Energy: ' + score);
+            if(score>= 100){
+                alert('Los Bact fueron exterminados, puedes volver a tu planeta!');
+                window.location.reload();
             }
         }
     </script>
