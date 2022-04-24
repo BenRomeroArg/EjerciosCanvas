@@ -294,10 +294,17 @@
         }
 
         function detectarBA(bacteria2){
+            if("vibrate" in window.navigator) {
+                window.navigator.vibrate(100);
+            }
+
             score--;
 
         }
         function detectarBB(bacteria){
+            if("vibrate" in window.navigator) {
+                window.navigator.vibrate(100);
+            }
             score--;
 
         }
