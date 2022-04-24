@@ -335,14 +335,14 @@
             }
 
             scoreText.setText('Energy: ' + score);
-            if(score>= 100){
+            if(score>= 200){
 
                 this.physics.pause();
                 gameOver = true;
                 alert('Los Bact fueron exterminados, puedes volver a tu planeta!');
                 window.location.reload();
             }
-            if(score <= -50){
+            if(score <= -150){
                 this.physics.pause();
                 gameOver = true;
                 alert('no pudiste detener la infectacion..se aproxima una pandemia..');
