@@ -10,22 +10,24 @@
         body{
             box-sizing: border-box;
             align-items: center;
-            scroll-behavior: smooth;
+            
         }
         .contenedor{
             display: flex;
-            top:550px;
-            align-items: flex-end;
+            top:600px;
+            
+            justify-content: center;
             flex-direction: row;
             position:fixed;
-            width: 700px;
+            width: 600px;
             height: 100px;
+            background-color: dimgrey;
         }
         button{
             display: flex;
-            
-            width: 80px;
-            height: 80px;
+            margin-left: 20px;
+            width: 90px;
+            height: 90px;
             border-radius: 100px;
             border-color: black 2px solid;
             background-color: rgb(10, 229, 10);
@@ -160,6 +162,7 @@
 
             tank.setBounceX(1);
             tank.setVelocityX(20);
+            tank.setScale(1);
             
 
             bondi.setScale(0.9);
@@ -177,8 +180,8 @@
             this.anims.create({
                 key: 'impact',
                 frames: this.anims.generateFrameNumbers('tank',{
-                    start: 0, 
-                    end: 2
+                    start: 2, 
+                    end: 4
                 }),
                 frameRate: 10,
                 repeat: -1
