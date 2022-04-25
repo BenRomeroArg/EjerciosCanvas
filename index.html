@@ -35,9 +35,34 @@
             
 
         }
+        #btnStart{
+            position: fixed;
+            top:100px;
+            left:100px;
+            width: 320px;
+            height: 200px;
+            border-radius: 30%;
+            background-image: url('imagen/btnStart.png');
+            
+            font-size: 2.5em;
+            text-align: center;
+            justify-content: center;
+            align-content: center;
+            font-weight: 900;
+            padding-top: 120px;
+            opacity: 0.633;
+            animation: btnS 3.5s ease-in-out 0s infinite normal none;
+            
+        }
+        @keyframes btnS {
+            100%{
+                color:chartreuse;
+            }
+        }
     </style>
 </head>
 <body>
+    <button id="btnStart">El ori..gen</button>
     <div class="contenedor"> 
         <button id="btnI"></button>
         <button id="btnA"></button>
@@ -71,6 +96,7 @@
         var auto;
         var autoDos;
         var gameOver = false;
+        
 
         function preload () {
             this.load.image('fondo','imagen/fondo.png');
@@ -309,7 +335,17 @@
             score--;
 
         }
-
+        const start = document.querySelector('#btnStart');
+        
+        start.addEventListener('click', function(){
+            start.style.display = 'none';
+            
+            setTimeout(()=>{
+                this.physics.pause();
+            },2500);  
+                 
+            
+        });
         const boton_I = document.querySelector('#btnI');
         boton_I.addEventListener('click', function(){
             player.setVelocityX(-490);
@@ -328,6 +364,8 @@
         });
 
         function update(){
+
+            
             if(gameOver){
                 return;
             }
@@ -370,21 +408,21 @@
 
                 setTimeout( () => {
                     player.clearTint();
-                },5000);
+                },3000);
             }
             if(score <=-50){
                 player.setTint(0x000ff);
 
                 setTimeout( () => {
                     player.clearTint();
-                },5000);
+                },3000);
             }
             if(score <=-100){
                 player.setTint(0x000ff);
 
                 setTimeout( () => {
                     player.clearTint();
-                },5000);
+                },3000);
             }
             if(score <= -250){
                 player.setTint(0x000ff);
