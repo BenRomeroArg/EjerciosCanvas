@@ -84,7 +84,7 @@
             this.load.image('starship','imagen/spaceship.png');
             this.load.image('bondi','imagen/bondiBg.png');
             this.load.image('auto','imagen/autobg.png');
-            this.load.image('autoD','imagen/autodosbg.png');
+            this.load.image('autoD','imagen/autodosbgf.png');
             this.load.spritesheet('alien','imagen/alienBb.png',{frameHeight: 73, frameWidth: 41});
             this.load.spritesheet('tank','imagen/tankbg.png',{frameHeight: 80, frameWidth: 115});
            
@@ -140,7 +140,7 @@
                 blendMode: 'MULTIPLY'
             });
 
-            var bacteria = this.physics.add.image(470,10,'ed');
+            var bacteria = this.physics.add.image(400,10,'ed');
             var bacteria2 = this.physics.add.image(70,10,'ed2');
             
             player.setBounce(0.06);
@@ -183,7 +183,7 @@
                 key: 'impact',
                 frames: this.anims.generateFrameNumbers('tank',{
                     start: 0, 
-                    end: 3
+                    end: 2
                 }),
                 frameRate: 10,
                 repeat: -1
@@ -356,6 +356,8 @@
             }
 
             scoreText.setText('Energy: ' + score);
+
+
             if(score>= 300){
                
                 this.physics.pause();
@@ -370,7 +372,20 @@
                     player.clearTint();
                 },5000);
             }
-            
+            if(score <=-50){
+                player.setTint(0x000ff);
+
+                setTimeout( () => {
+                    player.clearTint();
+                },5000);
+            }
+            if(score <=-100){
+                player.setTint(0x000ff);
+
+                setTimeout( () => {
+                    player.clearTint();
+                },5000);
+            }
             if(score <= -250){
                 player.setTint(0x000ff);
                 this.physics.pause();
